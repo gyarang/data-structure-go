@@ -27,7 +27,10 @@ func (s *Stack[T]) Pop() T {
 
 	last := s.last
 	s.last = last.prev
+
 	s.length--
+	last.prev = nil
+
 	return last.value
 }
 
