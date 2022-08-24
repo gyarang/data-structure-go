@@ -22,12 +22,32 @@ func (s *Stack[T]) Push(v T) {
 
 func (s *Stack[T]) Pop() T {
 	if s.length == 0 {
-		var zero T
-		return zero
+		return GetZeroValue[T]()
 	}
 
 	last := s.last
 	s.last = last.prev
 	s.length--
 	return last.value
+}
+
+func (s *Stack[T]) IsEmpty() bool {
+	return s.length == 0
+}
+
+func (s *Stack[T]) Peek() T {
+	if s.length == 0 {
+		return GetZeroValue[T]()
+	}
+
+	return s.last.value
+}
+
+func (s *Stack[T]) Length() int {
+	return s.length
+}
+
+func GetZeroValue[T any]() T {
+	var zero T
+	return zero
 }

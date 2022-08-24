@@ -19,3 +19,22 @@ stack.Pop() // 100
 stack.Pop() // 10
 stack.Pop() // 0 (zero value)
 ```
+
+### Peek
+```go
+stack.Peek() // 0 (zero value)
+stack.Push(100)
+stack.Peek() // 100
+```
+
+### Length
+```go
+stack.Length() // 1
+```
+
+### IsEmpty
+```go
+stack.IsEmpty() // false
+stack.Pop()
+stack.IsEmpty() // true
+```
