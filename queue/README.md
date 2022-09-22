@@ -2,7 +2,7 @@
 
 Generic 을 포함한 Queue 구현
 
-### Create Stack
+### Create Queue
 ```go
 queue := Queue[int]{}
 ```
