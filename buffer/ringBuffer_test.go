@@ -7,19 +7,22 @@ import (
 
 func TestRingBuffer_Write(t *testing.T) {
 	tests := []struct {
-		name  string
-		input []byte
+		name           string
+		input          []byte
+		expectedLength int
+		expectWritePt  int
 	}{
-		{"default", []byte{1, 2, 3, 4}},
+		{"default", []byte{1, 2, 3}, 3, 3},
+		{"write full", []byte{1, 2, 3, 4}, 4, 0},
+		{"empty", []byte{}, 0, 0},
 	}
 
 	for _, tt := range tests {
-		b := NewSliceBuffer[byte]()
+		b := NewRingBuffer[byte](4)
 		b.Write(tt.input)
-		// check input length
-		assert.Equal(t, len(tt.input), b.Readable(), tt.name)
-		// check input value
-		assert.Equal(t, tt.input, b.buf, tt.name)
+		assert.Equal(t, tt.expectedLength, b.Readable(), tt.name)
+		assert.Equal(t, tt.input, b.buf[:len(tt.input)], tt.name)
+		assert.Equal(t, tt.expectWritePt, b.writePt, tt.name)
 	}
 }
 
@@ -37,7 +40,7 @@ func TestRingBuffer_Read(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		b := NewSliceBuffer[byte]()
+		b := NewRingBuffer[byte](4)
 		b.Write(tt.input)
 		data := b.Read(tt.readCnt)
 		assert.Equal(t, tt.expectCnt, len(data), tt.name)
